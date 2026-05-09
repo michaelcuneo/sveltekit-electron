@@ -1,4 +1,5 @@
 import type { ForgeConfig } from "@electron-forge/shared-types";
+import { spawnSync } from "node:child_process";
 import { MakerSquirrel } from "@electron-forge/maker-squirrel";
 import { MakerZIP } from "@electron-forge/maker-zip";
 import { MakerDeb } from "@electron-forge/maker-deb";
@@ -7,17 +8,32 @@ import { VitePlugin } from "@electron-forge/plugin-vite";
 import { FusesPlugin } from "@electron-forge/plugin-fuses";
 import { FuseV1Options, FuseVersion } from "@electron/fuses";
 
+const hasBinary = (binary: string): boolean => {
+  const resolver = process.platform === "win32" ? "where" : "which";
+  const result = spawnSync(resolver, [binary], { stdio: "ignore" });
+  return result.status === 0;
+};
+
+const makers: ForgeConfig["makers"] = [
+  new MakerSquirrel({}),
+  new MakerZIP({}, ["darwin"]),
+  new MakerDeb({}),
+];
+
+if (hasBinary("rpmbuild")) {
+  makers.push(new MakerRpm({}));
+} else {
+  console.warn(
+    "[forge] Skipping RPM maker because 'rpmbuild' is not installed.",
+  );
+}
+
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
   },
   rebuildConfig: {},
-  makers: [
-    new MakerSquirrel({}),
-    new MakerZIP({}, ["darwin"]),
-    new MakerRpm({}),
-    new MakerDeb({}),
-  ],
+  makers,
   plugins: [
     new VitePlugin({
       // `build` can specify multiple entry builds, which can be Main process, Preload scripts, Worker process, etc.
