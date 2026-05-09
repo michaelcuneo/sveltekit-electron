@@ -1,0 +1,62 @@
+{
+  "name": "sveltekit-electron",
+  "productName": "sveltekit-electron",
+  "version": "1.0.0",
+  "description": "A SvelteKit + Electron app template",
+  "main": ".vite/build/main.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "prepare": "svelte-kit sync || echo ''",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "test:unit": "vitest",
+    "test": "npm run test:unit -- --run && npm run test:e2e",
+    "test:e2e": "playwright test",
+    "start": "electron-forge start -- --no-sandbox --disable-setuid-sandbox",
+    "start:headless": "xvfb-run -a electron-forge start -- --no-sandbox --disable-setuid-sandbox --disable-gpu",
+    "package": "vite build && electron-forge package",
+    "make": "vite build && electron-forge make",
+    "publish": "electron-forge publish"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Michael Cuneo",
+    "email": "me@michaelcuneo.com.au"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.11.1",
+    "@electron-forge/maker-deb": "^7.11.1",
+    "@electron-forge/maker-rpm": "^7.11.1",
+    "@electron-forge/maker-squirrel": "^7.11.1",
+    "@electron-forge/maker-zip": "^7.11.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.11.1",
+    "@electron-forge/plugin-fuses": "^7.11.1",
+    "@electron-forge/plugin-vite": "^7.11.1",
+    "@electron/fuses": "^1.8.0",
+    "@sveltejs/adapter-static": "^3.0.10",
+    "@sveltejs/kit": "^2.59.1",
+    "@sveltejs/vite-plugin-svelte": "^7.1.2",
+    "@types/electron-squirrel-startup": "^1.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "electron": "42.0.1",
+    "eslint": "^8.57.1",
+    "eslint-plugin-import": "^2.32.0",
+    "svelte": "^5.55.5",
+    "svelte-check": "^4.4.8",
+    "typescript": "^6.0.3",
+    "vite": "8.0.11"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "electron",
+      "electron-winstaller"
+    ]
+  }
+}
