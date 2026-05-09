@@ -4,6 +4,15 @@ All notable changes to this template will be documented in this file.
 
 ## [Unreleased]
 
+### Fixed
+
+- Resolved `import/no-unresolved` errors for `@sveltejs/vite-plugin-svelte` in Vite config files.
+- Updated ESLint import resolver settings to correctly resolve TypeScript/ESM package paths.
+
+### Changed
+
+- Added `eslint-import-resolver-typescript` to dev dependencies for consistent module resolution during linting.
+
 ### Added
 
 - Initial SvelteKit + Electron app template structure.
